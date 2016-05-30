@@ -1,0 +1,19 @@
+{
+  "name": "react-data-tables",
+  "version": "0.1.0",
+  "scripts": {
+    "deploy": "webpack -p --config webpack.config.js",
+    "start": "webpack-dev-server --progress --colors --history-api-fallback --hot --port 2222"
+  },  
+  "author": "vamshi",
+  "dependencies": {
+    "react": "0.13.3",
+    "page": "~1.6.3",
+    "path": "0.11.14"
+  },  
+  "devDependencies": {
+    "webpack": "~1.4.4",
+    "webpack-dev-server": "~1.6.5",
+    "jsx-loader": "0.13.2"
+  }
+}
