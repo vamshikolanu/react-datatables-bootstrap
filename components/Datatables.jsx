@@ -75,7 +75,7 @@ var EnlargeImageOnHover = React.createClass({
 		}
 
 		return(
-			<img width="80" style={Effectfront} onClick={this.imgOnClick} onMouseEnter={this.mouseEnter} onMouseLeave={this.mouseOut} src={this.props.src} />
+			<img width="60" height="60" style={Effectfront} onClick={this.imgOnClick} onMouseEnter={this.mouseEnter} onMouseLeave={this.mouseOut} src={this.props.src} />
 		)		
 	}
 });
@@ -87,10 +87,8 @@ var tdItem = React.createClass({
 	 */
 	render: function() {
 
-			var tdStyle = {
-				textAlign: 'center',
-				padding: '5px',
-				borderBottom: '1px solid #cbcbcb',
+			var trStyle = {
+				textAlign: 'center'
 			}
 
 			if(this.props.data) {
@@ -118,11 +116,8 @@ var tdItem = React.createClass({
 
 			}
 
-			if (this.props.flag) {
-				tdStyle['overflow'] = 'hidden'
-			}
 			return (
-					<td style={tdStyle}>
+					<td style={trStyle}>
 						{data}
 					</td>
 				)
@@ -235,6 +230,22 @@ module.exports = React.createClass({
 	 * @return {[none]}
 	 */
 	render: function() {
+
+
+		var tableStyle = {
+			width: '100%', 
+			marginTop:'10px'
+		}
+
+		var thStyle = {
+			textAlign: 'center',
+			cursor:'pointer'
+		}
+
+		var iconStyle = {
+			float:'right', 
+			color:'#CCCCCC',
+		}
 		
 		if(this.props.buttons) {
 
@@ -268,12 +279,24 @@ module.exports = React.createClass({
 		if(this.props.tags) {
 			var _this = this;
 
+			//th elements for selected fields in json
 			var thItems = this.props.tags.map(function(data, index) {
-				return <th onClick={_this.thOnClick.bind(_this,data)} >{data}</th>
+				return <th style={thStyle} onClick={_this.thOnClick.bind(_this,data)} >
+						<span>{data}</span>
+						<i style={iconStyle} className="fa fa-sort" aria-hidden="true"></i>
+					</th>
 			});
-		}
+
+
+			//Creating extra th elements for action buttons
+			$.each(this.props.actions, function( index, value ) {
+				thItems.push(<th style={thStyle}></th>);
+			});
+		}	
+
 
 		return (
+
 
 			<div>
 				<div className="row">
@@ -283,9 +306,13 @@ module.exports = React.createClass({
 				</div>
 				<div className="row">
 					<div className="col-md-12">
-						<table className="table table-bordered" style={{width: '100%'}}>
-							<tr>{thItems}</tr>
-							{trItems}
+						<table className="table table-bordered" style={tableStyle}>
+							<thead>
+								<tr>{thItems}</tr>
+							</thead>
+							<tbody>
+								{trItems}
+							</tbody>
 						</table>
 					</div>
 				</div>
