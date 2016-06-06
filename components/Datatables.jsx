@@ -13,6 +13,7 @@ var React = require('react');
 var InputField = require('./InputField');
 var BasicPlayer = require('./BasicPlayer');
 var EnlargeImageOnHover = require('./EnlargeImageOnHover');
+var Pagination = require('./Pagination');
 
 
 var actionButton = React.createClass({
@@ -231,12 +232,21 @@ module.exports = React.createClass({
 		 */
 		if(this.props.tags) {
 			var _this = this;
+			var faIcon = "fa fa-sort";
+
+			if(this.state.sort_ascending && this.state.sort_tag) {
+				faIcon = "fa fa-sort-asc";
+			}
+			else if(!this.state.sort_ascending && this.state.sort_tag) {
+				faIcon = "fa fa-sort-desc";
+			} 
 
 			//th elements for selected fields in json
 			var thItems = this.props.tags.map(function(data, index) {
+				var icon = (data == _this.state.sort_tag) ? faIcon : "fa fa-sort";
 				return <th style={thStyle} onClick={_this.thOnClick.bind(_this,data)} >
 						<span>{data}</span>
-						<i style={iconStyle} className="fa fa-sort" aria-hidden="true"></i>
+						<i style={iconStyle} className= {icon} aria-hidden="true"></i>
 					</th>
 			});
 
@@ -275,6 +285,11 @@ module.exports = React.createClass({
 						</table>
 					</div>
 				</div>
+			    <div className="row">
+			    	<div className="col-md-3 pull-right">
+			    		<Pagination/>
+			    	</div>
+			    </div>	
 			</div>
 
 			)

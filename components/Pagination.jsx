@@ -24,7 +24,11 @@ module.exports = React.createClass({
 render: function() {
 
 		return (
-			<input type="text" className="form-control"  value={this.props.value} onKeyUp={this.keyUp}  name={this.props.name} ref={this.props.ref} placeholder={this.props.placeholder} />
+			<div className="btn-group pull-right">
+ 				<button type="button" className="btn btn-default">Left</button>
+ 				<button type="button" className="btn btn-default">Middle</button>
+ 				<button type="button" className="btn btn-default">Right</button>
+			</div>
 		)
 	}
 
