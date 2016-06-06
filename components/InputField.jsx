@@ -11,7 +11,6 @@ module.exports = React.createClass({
   },
 
   getInitialState: function() {
-  	console.log(this.props.keyUp);
     return {focus_flag: false};
   },
 

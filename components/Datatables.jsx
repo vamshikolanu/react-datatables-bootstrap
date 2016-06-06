@@ -9,9 +9,10 @@
 
 'use strict'
 
-var React = require('react')
+var React = require('react');
 var InputField = require('./InputField');
 var BasicPlayer = require('./BasicPlayer');
+var EnlargeImageOnHover = require('./EnlargeImageOnHover');
 
 
 var actionButton = React.createClass({
@@ -30,53 +31,6 @@ var actionButton = React.createClass({
 				)
 	}
 })
-
-/**
-* Enlarges image when hovers on it 
-*/
-var EnlargeImageOnHover = React.createClass({
-	getInitialState: function(){
-		return {hover: false};
-	},
-
-	mouseEnter: function(){
-		this.setState({hover: true});
-	},
-
-	mouseOut: function(){
-		this.setState({hover: false});
-	},
-
-	/**
-	* OnClick: This method will make sure it becomes small on click
-	*/
-	imgOnClick: function(){
-		if(!this.state.hover) { 
-			this.setState({hover: true});
-		}
-		else {
-			this.setState({hover: false});
-		}
-	},
-
-	render: function(){
-		var Effectfront = {
-  			border: 'none',
-  			margin: '0 auto',
-  			cursor: 'pointer',
-  			zIndex: '1000'
-		}
- 		
-		if(this.state.hover) {
-			Effectfront['transform'] = 'scale(6)',
-			Effectfront['transition'] = 'all 0.6s'
-		}
-
-		return(
-			<img width="60" height="60" style={Effectfront} onClick={this.imgOnClick} onMouseEnter={this.mouseEnter} onMouseLeave={this.mouseOut} src={this.props.src} />
-		)		
-	}
-});
 
 var tdItem = React.createClass({
 
@@ -200,7 +154,7 @@ var trItem = React.createClass({
 module.exports = React.createClass({	
 
 	getInitialState: function() {
-		return {search_value: '', sort_tag: '',sort_ascending: 'false'}
+		return {search_value: '', sort_tag: '', sort_ascending: 'false'}
 	},
 
 	/**
@@ -251,15 +205,17 @@ module.exports = React.createClass({
 
 		if(this.props.data) {
 
-			var _this = this
+			var _this = this;
 
 			/**
 			 * sorting the json on click of th tag
 			 */
 			if(this.state.sort_tag) {
 
+
 				this.props.data.sort(function(clip1,clip2){
-					return (_this.state.sort_ascending) ? clip1[_this.state.sort_tag] - clip2[_this.state.sort_tag] : clip2[_this.state.sort_tag] - clip1[_this.state.sort_tag]
+
+					return (_this.state.sort_ascending) ? clip1[_this.state.sort_tag] > clip2[_this.state.sort_tag] : clip2[_this.state.sort_tag] > clip1[_this.state.sort_tag];
 				})
 			}
 
@@ -293,7 +249,6 @@ module.exports = React.createClass({
 
 
 		return (
-
 
 			<div>
 				<div className="row">
