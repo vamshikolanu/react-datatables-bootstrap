@@ -39,7 +39,7 @@ var HomePage = React.createClass({
           <br/>
           <DataTable 
                         tags= {['First Name', 'Last Name', 'Image', "Audio Clip"]} 
-                        actions={[{'name': 'Edit', 'function': this.edit}, {'name': 'Alert', 'function':  this.alert}]} 
+                        actions={[{'name': 'Edit', 'function': this.edit, 'btn_class':'btn btn-primary'}, {'name': 'Alert', 'function':  this.alert, 'btn_class':'btn btn-danger'}]} 
                         data = {this.state.json_object} />
       </div>
     );

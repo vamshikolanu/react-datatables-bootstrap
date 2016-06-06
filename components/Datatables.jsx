@@ -11,9 +11,7 @@
 
 var React = require('react')
 var InputField = require('./InputField');
-var Img = require('./Image');
 var BasicPlayer = require('./BasicPlayer');
-var RedButton = require('./RedButton');
 
 
 var actionButton = React.createClass({
@@ -23,10 +21,10 @@ var actionButton = React.createClass({
 	},
 
 	render: function() {
-
 			return (
+
 					<div onClick={this.handleOnClick} >
-						<RedButton text = {this.props.text} />
+						<button className={this.props.btn_class} > {this.props.text} </button>
 					</div>
 
 				)
@@ -112,7 +110,7 @@ var tdItem = React.createClass({
 
 			if(this.props.action){
 
-				var data = React.createElement(actionButton, {data:this.props.data, text:this.props.name,  action:this.props.action})
+				var data = React.createElement(actionButton, {data:this.props.data, text:this.props.name,  action:this.props.action, btn_class:this.props.btn_class})
 
 			}
 
@@ -183,7 +181,7 @@ var trItem = React.createClass({
 				
 						var action = this.props.actions[i];
 						
-						tdArray.push(React.createElement(tdItem, {data:this.props.tdData, flag:this.props.flag, name:action['name'], action:action['function']}));
+						tdArray.push(React.createElement(tdItem, {data:this.props.tdData, flag:this.props.flag, name:action['name'], action:action['function'], btn_class: action['btn_class'] }));
 					}
 				}
 			}
@@ -230,7 +228,6 @@ module.exports = React.createClass({
 	 * @return {[none]}
 	 */
 	render: function() {
-
 
 		var tableStyle = {
 			width: '100%', 
@@ -300,7 +297,14 @@ module.exports = React.createClass({
 
 			<div>
 				<div className="row">
-					<div className="col-md-3">
+					<div className="col-md-1">
+						<select className="form-control">
+							<option value="5">5</option>
+							<option value="20">20</option>
+							<option value="50">50</option>
+						</select>
+					</div>
+					<div className="col-md-3 pull-right">
 						<InputField placeholder="search" keyup={this.searchTags}/>
 					</div>
 				</div>
