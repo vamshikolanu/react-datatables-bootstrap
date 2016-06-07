@@ -18,12 +18,20 @@ var HomePage = React.createClass({
        }, 'json');
     },
 
-    edit: function() {
-      alert('clicked on edit')
+    /**
+     * The parameter 'data' is the column of the JSON file on which the user clicks. 
+     * @param  {JSON}
+     */
+    edit: function(data) {
+      alert(data);
     },
 
-    alert: function() {
-      alert('clicked on alert');
+    /**
+     * The parameter 'data' is the column of the JSON file on which the user clicks. 
+     * @param  {JSON}
+     */
+    alert: function(data) {
+      alert(data);
     },
 
    render: function() {

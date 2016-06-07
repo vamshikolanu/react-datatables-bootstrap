@@ -31,7 +31,7 @@ var actionButton = React.createClass({
 
 				)
 	}
-})
+});
 
 var tdItem = React.createClass({
 
@@ -155,7 +155,7 @@ var trItem = React.createClass({
 module.exports = React.createClass({	
 
 	getInitialState: function() {
-		return {search_value: '', sort_tag: '', sort_ascending: 'false'}
+		return {search_value: '', sort_tag: '', sort_ascending: 'false', select_value: 10, current_page: 1}
 	},
 
 	/**
@@ -164,10 +164,8 @@ module.exports = React.createClass({
 	 * @return {[none]}
 	 */
 	searchTags: function(e) {
-
 		this.setState({search_value: e.target.value});
 	},
-
 
 	/**
 	 * [thOnClick set the flag to ascending or desending using set state method]
@@ -179,10 +177,23 @@ module.exports = React.createClass({
 	},
 
 	/**
+	 * on change of select change the value of the state to the selected value.
+	 */
+	selectChange: function(e) {
+		this.setState({select_value: e.target.value});
+	},
+
+	handlePagination: function(page_number) {
+		this.setState({current_page: page_number});
+	},	
+
+	/**
 	 * renders view of datatable along with search box
 	 * @return {[none]}
 	 */
 	render: function() {
+
+		var start_index = 1, end_index;
 
 		var tableStyle = {
 			width: '100%', 
@@ -200,30 +211,36 @@ module.exports = React.createClass({
 		}
 		
 		if(this.props.buttons) {
-
 			var voices = this.props.data;
 		}
 
 		if(this.props.data) {
-
 			var _this = this;
 
+			var json_length = this.props.data.length;
 			/**
 			 * sorting the json on click of th tag
 			 */
 			if(this.state.sort_tag) {
-
-
 				this.props.data.sort(function(clip1,clip2){
 
 					return (_this.state.sort_ascending) ? clip1[_this.state.sort_tag] > clip2[_this.state.sort_tag] : clip2[_this.state.sort_tag] > clip1[_this.state.sort_tag];
-				})
+				});
 			}
 
+			var current_page = _this.state.current_page;
+			var select_value = _this.state.select_value;
+			var start_range =  (current_page-1) * select_value;
+			var end_range = (current_page) * select_value;	
+
+			start_index = start_range + 1;
+			end_index = (end_range > json_length) ? json_length : end_range;
+
 			var trItems = this.props.data.map(function(data, index) {
+				if( start_range <=index  && index < end_range) {
 
-				return React.createElement(trItem, {actions:_this.props.actions, flag:_this.props.width_style, search_value:_this.state.search_value, tdData:data, key:index, tags:_this.props.tags});
-
+					return React.createElement(trItem, {actions:_this.props.actions, flag:_this.props.width_style, search_value:_this.state.search_value, tdData:data, key:index, tags:_this.props.tags});
+				}
 			});
 		}
 
@@ -263,10 +280,11 @@ module.exports = React.createClass({
 			<div>
 				<div className="row">
 					<div className="col-md-1">
-						<select className="form-control">
-							<option value="5">5</option>
-							<option value="20">20</option>
+						<select onChange={this.selectChange} className="form-control">
+							<option value="10">10</option>
+							<option value="25">25</option>
 							<option value="50">50</option>
+							<option value="100">100</option>
 						</select>
 					</div>
 					<div className="col-md-3 pull-right">
@@ -286,10 +304,14 @@ module.exports = React.createClass({
 					</div>
 				</div>
 			    <div className="row">
-			    	<div className="col-md-3 pull-right">
-			    		<Pagination/>
+			    	<div className="col-md-6">
+			    		Showing {start_index} to {end_index} of {json_length} entries
 			    	</div>
-			    </div>	
+			    	<div className="col-md-6">
+			    		<Pagination current_page={this.state.current_page} action={this.handlePagination} length={json_length} elements_per_page={this.state.select_value}/>
+			    	</div>
+			    </div>
+
 			</div>
 
 			)
