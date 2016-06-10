@@ -2,7 +2,7 @@
 /**
 	this.props.data = coloums of the table to be displayed
 	this.props.tags = headings of the table and key values in the json file
-	this.props.actions = They are buttons which have to be displayed with [name: , action: ] feature where name atrr referst to name on the button
+	this.props.actions = They are buttons which have to be displayed with [name: , action: , class-name] feature where name atrr referst to name on the button
 
 **/
 
@@ -177,10 +177,10 @@ module.exports = React.createClass({
 	},
 
 	/**
-	 * on change of select change the value of the state to the selected value.
+	 * on change of select change the value of the state to the selected value and change the current page to 1.
 	 */
 	selectChange: function(e) {
-		this.setState({select_value: e.target.value});
+		this.setState({select_value: e.target.value, current_page:1});
 	},
 
 	handlePagination: function(page_number) {
@@ -224,14 +224,20 @@ module.exports = React.createClass({
 			if(this.state.sort_tag) {
 				this.props.data.sort(function(clip1,clip2){
 
-					return (_this.state.sort_ascending) ? clip1[_this.state.sort_tag] > clip2[_this.state.sort_tag] : clip2[_this.state.sort_tag] > clip1[_this.state.sort_tag];
+					console.log(clip1[_this.state.sort_tag]);
+					if(_this.state.sort_ascending){
+						return (clip1[_this.state.sort_tag] > clip2[_this.state.sort_tag]) ? 1 : ((clip1[_this.state.sort_tag] < clip2[_this.state.sort_tag]) ? -1 : 0);
+					}
+					else {
+						return (clip2[_this.state.sort_tag] > clip1[_this.state.sort_tag]) ? 1 : ((clip2[_this.state.sort_tag] < clip1[_this.state.sort_tag]) ? -1 : 0);
+					} 
 				});
 			}
 
 			var current_page = _this.state.current_page;
 			var select_value = _this.state.select_value;
-			var start_range =  (current_page-1) * select_value;
-			var end_range = (current_page) * select_value;	
+			var start_range =  select_value * (current_page - 1);
+			var end_range = select_value * (current_page);	
 
 			start_index = start_range + 1;
 			end_index = (end_range > json_length) ? json_length : end_range;
