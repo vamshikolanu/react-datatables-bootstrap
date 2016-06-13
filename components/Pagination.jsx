@@ -22,7 +22,7 @@ module.exports = React.createClass({
     var number_of_pages;
 
     if(length && elements_per_page) {
-      number_of_pages = parseInt(length/elements_per_page) + 1;
+      number_of_pages = parseInt(length/elements_per_page);
     }
     
     var pages_displayed = (number_of_pages > 5) ? 5: number_of_pages; 

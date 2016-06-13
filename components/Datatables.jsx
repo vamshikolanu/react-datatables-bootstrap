@@ -82,32 +82,6 @@ var tdItem = React.createClass({
 
 var trItem = React.createClass({
 
-	/**
-	 * check whether search box value is present in atleast on td element of tr.  
-	 * @return {[boolean]}
-	 */
-	searchResult: function() {
-
-		if(this.props.tdData) {
-
-		 for(var key in this.props.tdData) {	
-
-				if(this.props.tags.indexOf(key) != -1) {
-
-          			var attrValue = String(this.props.tdData[key]);
-
-          			var regex = new RegExp(this.props.search_value, 'gi');
-
-          			if(attrValue) {
-        	  			if(attrValue.match(regex)){
-          					return true;
-          				}
-          			}
-         		}	
-        	}
-        	return false;
-        }
-	},
 
 	/**
 	 * checks for tags and returns creates tr values of the given tags 
@@ -118,8 +92,6 @@ var trItem = React.createClass({
 		var tdArray = [];
 
 		if (this.props.tdData) {
-
-			if (this.searchResult() || this.props.search_value == '') {
 
 				for (var tag in this.props.tags) {
 
@@ -139,7 +111,6 @@ var trItem = React.createClass({
 						tdArray.push(React.createElement(tdItem, {data:this.props.tdData, flag:this.props.flag, name:action['name'], action:action['function'], btn_class: action['btn_class'] }));
 					}
 				}
-			}
 		}
 
 		return(
@@ -188,6 +159,33 @@ module.exports = React.createClass({
 	},	
 
 	/**
+	 * check whether search box value is present in atleast on td element of tr.  
+	 * @return {[boolean]}
+	 */
+	searchResult: function(data) {
+
+		if(data) {
+
+			for(var key in data) {	
+
+				if(this.props.tags.indexOf(key) != -1) {
+
+          			var attrValue = String(data[key]);
+
+          			var regex = new RegExp(this.state.search_value, 'gi');
+
+          			if(attrValue) {
+        	  			if(attrValue.match(regex)){
+          					return true;
+          				}
+          			}
+         		}	
+        	}
+        	return false;
+        }
+	},
+
+	/**
 	 * renders view of datatable along with search box
 	 * @return {[none]}
 	 */
@@ -224,7 +222,6 @@ module.exports = React.createClass({
 			if(this.state.sort_tag) {
 				this.props.data.sort(function(clip1,clip2){
 
-					console.log(clip1[_this.state.sort_tag]);
 					if(_this.state.sort_ascending){
 						return (clip1[_this.state.sort_tag] > clip2[_this.state.sort_tag]) ? 1 : ((clip1[_this.state.sort_tag] < clip2[_this.state.sort_tag]) ? -1 : 0);
 					}
@@ -242,10 +239,30 @@ module.exports = React.createClass({
 			start_index = start_range + 1;
 			end_index = (end_range > json_length) ? json_length : end_range;
 
-			var trItems = this.props.data.map(function(data, index) {
+			var count = 0;
+			var searched_items = this.props.data;
+
+			/**
+			 * [if description: if user searches for some value]
+			 * @param  {[string]} _this.state.search_value [value for which the user searches for]
+			 */
+			if(_this.state.search_value!=null) {
+				searched_items = [];
+				this.props.data.map(function(data, index){
+					if(_this.searchResult(data)) {
+						searched_items.push(data);
+					}
+				});
+			}
+
+			/**
+			 * [creating tr elements for displaying them in the table]
+			 */
+			var trItems = searched_items.map(function(data, index) {
+
 				if( start_range <=index  && index < end_range) {
 
-					return React.createElement(trItem, {actions:_this.props.actions, flag:_this.props.width_style, search_value:_this.state.search_value, tdData:data, key:index, tags:_this.props.tags});
+						return React.createElement(trItem, {actions:_this.props.actions, flag:_this.props.width_style, tdData:data, key:index, tags:_this.props.tags});
 				}
 			});
 		}
@@ -266,9 +283,10 @@ module.exports = React.createClass({
 
 			//th elements for selected fields in json
 			var thItems = this.props.tags.map(function(data, index) {
+				data = data.replace('_', ' ');
 				var icon = (data == _this.state.sort_tag) ? faIcon : "fa fa-sort";
 				return <th style={thStyle} onClick={_this.thOnClick.bind(_this,data)} >
-						<span>{data}</span>
+						<span>{data.toUpperCase()}</span>
 						<i style={iconStyle} className= {icon} aria-hidden="true"></i>
 					</th>
 			});
@@ -299,7 +317,7 @@ module.exports = React.createClass({
 				</div>
 				<div className="row">
 					<div className="col-md-12">
-						<table className="table table-bordered" style={tableStyle}>
+						<table className="table table-striped table-bordered dataTable no-footer" style={tableStyle}>
 							<thead>
 								<tr>{thItems}</tr>
 							</thead>

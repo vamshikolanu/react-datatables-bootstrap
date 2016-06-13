@@ -14,7 +14,7 @@ var HomePage = React.createClass({
        var _this = this;
 
        $.get('./test.json', function(response){
-          _this.setState({json_object: response.employees});
+          _this.setState({json_object: response.voices});
        }, 'json');
     },
 
@@ -46,7 +46,7 @@ var HomePage = React.createClass({
           </p>  
           <br/>
           <DataTable 
-                        tags= {['First Name', 'Last Name', 'Image', "Audio Clip"]} 
+                        tags= {['mp3_url', 'poster_url', 'transcript', "language"]} 
                         actions={[{'name': 'Edit', 'function': this.edit, 'btn_class':'btn btn-primary'}, {'name': 'Alert', 'function':  this.alert, 'btn_class':'btn btn-danger'}]} 
                         data = {this.state.json_object} />
       </div>
