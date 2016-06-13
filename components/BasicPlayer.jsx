@@ -18,7 +18,7 @@ module.exports = React.createClass({
 			  <source src={this.props.src} />
 			  Your browser does not support the audio element.
 			</audio>
-
+			
 		)
 	}
 
