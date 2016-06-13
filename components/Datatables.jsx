@@ -236,10 +236,6 @@ module.exports = React.createClass({
 			var start_range =  select_value * (current_page - 1);
 			var end_range = select_value * (current_page);	
 
-			start_index = start_range + 1;
-			end_index = (end_range > json_length) ? json_length : end_range;
-
-			var count = 0;
 			var searched_items = this.props.data;
 
 			/**
@@ -253,7 +249,12 @@ module.exports = React.createClass({
 						searched_items.push(data);
 					}
 				});
+				json_length = searched_items.length;
 			}
+
+			start_index = start_range + 1;
+			end_index = (end_range > json_length) ? json_length : end_range;
+
 
 			/**
 			 * [creating tr elements for displaying them in the table]
