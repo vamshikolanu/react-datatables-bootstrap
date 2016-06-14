@@ -21,7 +21,7 @@ Features.
 Run the code:
 1. clone the project
 2. npm install
-3. npm run and open localhost:2222 in your local system.
+3. npm run start and open localhost:2222 in your local system.
 
 
 Still working on it. Happy coding :) ! 
