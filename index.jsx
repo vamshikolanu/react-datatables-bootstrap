@@ -36,20 +36,10 @@ var HomePage = React.createClass({
 
    render: function() {
     return (
-      <div>
-          <div className="page-header">
-            <h1>  React Datatables with Bootstrap </h1>
-          </div>
-          <p className="lead"> 
-            React datatable which has been created by taking a json object as input. Very useful in displaying JSON objects which are loaded from the server.
-            Check out the <a href="https://github.com/iiit123/react-datatables-bootstrap"> source code </a>
-          </p>  
-          <br/>
           <DataTable 
                         tags= {['mp3_url', 'poster_url', 'transcript', "language"]} 
                         actions={[{'name': 'Edit', 'function': this.edit, 'btn_class':'btn btn-primary'}, {'name': 'Alert', 'function':  this.alert, 'btn_class':'btn btn-danger'}]} 
                         data = {this.state.json_object} />
-      </div>
     );
   }
 });

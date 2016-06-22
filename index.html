@@ -4,12 +4,38 @@
 	</head>
 	<body>
 		<div class = "container">
+			<div class="page-header">
+        		<h1>  React Datatables with Bootstrap </h1>
+       	 	</div>
+
+       	 	<p class="lead">
+       	 		React-datatable is a react bootstrap component which can be very easily integrated with your code.
+       	 	</p>
+       	 	<p class="lead">
+	       		It can be easily configured and has many features like search, sorting, pagination. It is compatible with audio files as well as images. Extra actions buttons can be included for modifiying the table
+       	 	</p> 
+       	 	<p class="lead">	
+       	 		The following piece of code creates the entire datatable for your webpage.</br>
+       	 		<code>
+       	 				<p>< DataTable </p> 
+                        <p>tags= {tags in the json which have to be displayed} </p>
+                        <p>actions={[{'name': 'button name to be displayed in datatable', 'function': function </p> <p>defined in parent class, 'btn_class':'bootstrap class of the button'}]} </p>
+                        <p>data = {json object which has to be displayed} /></p>
+                </code>
+       	 	</p>
+       	 
+        	<p class="lead"> 
+            	React datatable which has been created by taking a json object as input. Very useful in displaying JSON objects which are loaded from the server.
+            	Check out the <a href="https://github.com/iiit123/react-datatables-bootstrap"> source code </a>
+        	</p></br> 
+			
 			<div class ="row">
 				<div id = "data-tables">	
 
 				</div>
-			</div>
-		</div>
+			</div> <!-- end of row -->
+
+		</div> <!-- end of container -->
 	</body>
 	<script src="https://fb.me/react-with-addons-0.13.3.min.js"></script>
 	<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
